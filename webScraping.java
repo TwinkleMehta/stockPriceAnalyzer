@@ -8,12 +8,15 @@ public class webScraping {
 	public static void main(String[]args) throws IOException
 	{
 		//System.out.println(getUrlSource("aapl")); 
-		System.out.println("Price: " + findPrice(getUrlSource("aapl")));
+		String price = findPrice(getUrlSource("aapl"));		
+		System.out.println("Price: " + price);
+		writeFile.writeToFile(price);
+		
 	}
 
-	public static double findPrice(String line)
+	public static String findPrice(String line)
 	{
-		double num = 0.00; 
+		String num = ""; 
 		String temp = "";
 		
 		for(int i=0;i<line.length();i++)
@@ -21,20 +24,21 @@ public class webScraping {
 			if (line.substring(i,i+1).equals(";"))
 			{
 				temp = line.substring(i+1,i+7);
-				num = Double.parseDouble(temp); 
+				num = temp; 
 			}
 		}
 		
 		return num; 
 	}
 	
-	private static String getUrlSource(String url) throws IOException { 
+	private static String getUrlSource(String url) throws IOException {
         String line = "";
 		URL website = new URL("http://www.nasdaq.com/symbol/"+url);
         URLConnection yc = website.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 yc.getInputStream(), "UTF-8"));
         String inputLine;
+
         while ((inputLine = in.readLine()) != null)
         {
         	
