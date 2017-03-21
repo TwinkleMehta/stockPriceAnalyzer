@@ -28,19 +28,15 @@ public class webScraping {
 		return num; 
 	}
 	
-	private static String getUrlSource(String url) throws IOException {
-        int num = 0; 
+	private static String getUrlSource(String url) throws IOException { 
         String line = "";
 		URL website = new URL("http://www.nasdaq.com/symbol/"+url);
         URLConnection yc = website.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 yc.getInputStream(), "UTF-8"));
         String inputLine;
-        //StringBuilder a = new StringBuilder();
         while ((inputLine = in.readLine()) != null)
         {
-        	num++; 
-        	//a.append(inputLine);
         	
         	if(inputLine.contains("LastSale"))
         	{
