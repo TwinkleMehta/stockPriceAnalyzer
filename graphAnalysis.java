@@ -188,9 +188,44 @@ public class graphAnalysis2 {
 			}
 		
 			// checks the ratios between the remaining values to see if they follow the same trend 
-			for (int i = 1; i < (prices.length-1); i++){
+package graphAnalysis;
+import java.io.*;
+import java.util.*;
+
+public class graphAnalysis2 {
+
+	public static boolean decayTrend (ArrayList<Double> temp){
 		
-				if ((prices[i+1]/prices[i])>=hiBuffer || (prices[i+1]/prices[i])<=loBuffer){
+		double ratio = 0.0; 
+		
+		// finds the initial base ratio
+		if ((ratio = temp.get(1)/temp.get(0)) < 0.95){
+					
+			//double hiBuffer;
+			double loBuffer;
+					
+			// adjusts hiBuffer so it remains under 1.0
+			if (ratio >= 0.9){
+				//hiBuffer = 0.98;
+				loBuffer = ratio-0.1;
+			}
+					
+			// adjusts loBuffer so it remains above 0.0
+			else if (ratio <= 0.1){
+				loBuffer = 0.2;
+				//hiBuffer = ratio+0.1;
+			}
+					
+			// sets a margin of error of +- 0.1
+			else {
+				//hiBuffer = ratio+0.1;
+				loBuffer = ratio-0.1;
+			}
+		
+			// checks the ratios between the remaining values to see if they follow the same trend 
+			for (int i = 1; i < temp.size()-1; i++){
+				
+				if ((temp.get(i+1)/temp.get(i))>=1.02 || (temp.get(i+1)/temp.get(i))<=loBuffer){
 					return false;
 				}
 			}
@@ -218,45 +253,41 @@ public class graphAnalysis2 {
 		ArrayList<Double> temp = new ArrayList<Double>();
 		StringTokenizer s;
 		Double parseDouble;
+		int n = 0;
+		
+		s = new StringTokenizer(lineOfText);
 		
 		while ((lineOfText = read.readLine()) != null){
 			
 			s = new StringTokenizer(lineOfText);
+			prices.add(new ArrayList<Double>());
 			
 			// fills the array and parses strings to doubles
 			while (s.hasMoreTokens()){	
-				parseDouble = Double.parseDouble(s.nextToken());
-				temp.add(parseDouble);	
+				parseDouble = Double.parseDouble(s.nextToken()); 
+				prices.get(n).add(parseDouble);	
 			}
 			
-			prices.add(temp);
-			temp.clear();
-			//n++;
-		}
-		
+			n++;
+		}	
 		
 		for (int i = 0; i < prices.size(); i++){
 			for (int j = 0; j < prices.get(0).size(); j++){
-				System.out.println(prices.get(i).get(j) + " ");
+				temp.add(prices.get(j).get(i));
 			}
-			System.out.println("\n");
+			
+			if (decayTrend(temp)){
+				System.out.print("Yes\n");
+			}
+						
+			else {
+				System.out.print("No\n");
+			}
+			
+			temp.clear();
 		}
-		
-		
-		
-		
-		
-		
-		
-		/*// outputs 'yes' or 'no' depending on whether the data follows the trend
-		if (decayTrend(prices)){
-			System.out.print("Yes\n");
-		}
-		
-		else {
-			System.out.print("No\n");
-		}*/
 	
+		read.close();
 	}
 
 }
