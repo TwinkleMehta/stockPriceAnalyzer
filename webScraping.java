@@ -1,9 +1,10 @@
+package graphAnalysis;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
-public class webScraping {
+public class webScrapingfinal {
 	
 	public static void main(String[]args) throws IOException
 	{
@@ -11,29 +12,29 @@ public class webScraping {
 		ArrayList<String> stockSymbols = new ArrayList<String>();
 		stockSymbols = getStockSymbols(); 
 		
+		File textFile; 
+		FileWriter out;  
+		textFile = new File("/Users/lesliexin/Documents/Coding/stockPriceAnalysis/graphAnalysis/src/graphAnalysis/prices.txt"); 
+		out = new FileWriter(textFile, true); 
+		BufferedWriter writeFile = new BufferedWriter(out);
+
+		
 		for(int i=0;i<stockSymbols.size();i++)
 		{
 
 			//finds real time price of stock
 			String price = findPrice(getUrlSource(stockSymbols.get(i)));
+			price.replace(" ", "");
 			
 			//outputs symbol and price in terminal
-			System.out.println("Symbol: "+ stockSymbols.get(i));
-			System.out.print(" Price: " + price);
+			System.out.print("Symbol: "+ stockSymbols.get(i) + " ");
+			System.out.println(" Price: " + price);
 			
 			//writing hourly prices of stock to hourlyPrice.txt
-			File textFile; 
-			FileWriter out; 
 			try 
-			{
-				textFile = new File("/Users/MehtaUser/Documents/EclipseProjects2016/Stocks/hourlyPrices.txt"); 
-				out = new FileWriter(textFile, true); 
-				BufferedWriter writeFile = new BufferedWriter(out);
-				 
+			{			 
 				writeFile.write(price + " ");
 				
-				writeFile.close();
-				out.close();
 			}
 			
 			catch(IOException e)
@@ -44,6 +45,11 @@ public class webScraping {
 			
 		}
 		
+		writeFile.write("\n");
+		
+		writeFile.close();
+		out.close();
+		System.out.print("done");
 	}
 	
 	public static ArrayList <String> getStockSymbols()
@@ -52,7 +58,7 @@ public class webScraping {
 		ArrayList<String> stockSymbols = new ArrayList<String>();
 		
 		//reads symbols.txt to retrieve all stock symbols to be analyzed
-		File textFile = new File("/Users/MehtaUser/Documents/EclipseProjects2016/Stocks/symbols.txt");
+		File textFile = new File("/Users/lesliexin/Documents/Coding/stockPriceAnalysis/graphAnalysis/src/graphAnalysis/symbols.txt");
 		FileReader in; 
 		BufferedReader readFile; 
 		String lineOfText = null; 
@@ -117,8 +123,7 @@ public class webScraping {
 		String line = " ";
 		URL website = new URL("http://www.nasdaq.com/symbol/"+url);
         URLConnection yc = website.openConnection();
-        BufferedReader in = new BufferedReader(new InputStreamReader(
-                yc.getInputStream(), "UTF-8"));
+        BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream(), "UTF-8"));
         String inputLine;
         
         //searching source code for "LastSale"
