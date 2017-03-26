@@ -2,7 +2,7 @@ package graphAnalysis;
 import java.io.*;
 import java.util.*;
 
-public class graphAnalysis2 {
+public class graphAnalysis {
 
 	public static boolean decayTrend (ArrayList<Double> temp){
 		
@@ -50,7 +50,8 @@ public class graphAnalysis2 {
 	
 	}
 	
-public static void main(String[] args) throws IOException {
+	
+	public static void main(String[] args) throws IOException {
 		
 		File file = new File("/Users/lesliexin/Documents/Coding/stockPriceAnalysis/graphAnalysis/src/graphAnalysis/prices.txt");
 		
@@ -71,18 +72,20 @@ public static void main(String[] args) throws IOException {
 			s = new StringTokenizer(lineOfText);
 			prices.add(new ArrayList<Double>());
 			
+			//System.out.println(lineOfText);
+			
 			// fills the array and parses strings to doubles
 			while (s.hasMoreTokens()){	
-				parseDouble = Double.parseDouble(s.nextToken()); 
-				prices.get(n).add(parseDouble);	
+				parseDouble = Double.parseDouble(s.nextToken());
+				prices.get(n).add(parseDouble);
 			}
 			
-			n++;
+			n++; 
 		}	
 		
 		// adds the values from each stock to a temporary arraylist 
-		for (int i = 0; i < prices.size(); i++){
-			for (int j = 0; j < prices.get(0).size(); j++){
+		for (int i = 0; i < prices.get(0).size(); i++){
+			for (int j = 0; j < prices.size(); j++){
 				temp.add(prices.get(j).get(i));
 			}
 			
