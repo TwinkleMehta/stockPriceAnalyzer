@@ -50,10 +50,28 @@ public class graphAnalysis {
 	
 	}
 	
+	public static void printSymbol (int num) throws IOException{
+		
+		File file = new File("symbols.txt");
+		
+		FileReader readFile = new FileReader(file);
+		BufferedReader read = new BufferedReader (readFile);
+		String symbol = "";
+		
+		for (int i = 0; i < num; i++){
+			read.readLine();
+		}
+		
+		System.out.println(read.readLine());
+	
+	}
+	
+	
+	
 	
 	public static void main(String[] args) throws IOException {
 		
-		File file = new File("/Users/lesliexin/Documents/Coding/stockPriceAnalysis/graphAnalysis/src/graphAnalysis/prices.txt");
+		File file = new File("prices.txt");
 		
 		// initializing variables
 		FileReader readFile = new FileReader(file);
@@ -83,6 +101,7 @@ public class graphAnalysis {
 			n++; 
 		}	
 		
+		System.out.println("----- FOLLOWS TREND -----");
 		// adds the values from each stock to a temporary arraylist 
 		for (int i = 0; i < prices.get(0).size(); i++){
 			for (int j = 0; j < prices.size(); j++){
@@ -91,13 +110,10 @@ public class graphAnalysis {
 			
 			// passes the temporary array to the decayTrend method
 			if (decayTrend(temp)){
-				System.out.print("Yes\n");
+				printSymbol(i);
+				System.out.println("");
 			}
 						
-			else {
-				System.out.print("No\n");
-			}
-			
 			temp.clear();
 		}
 	
